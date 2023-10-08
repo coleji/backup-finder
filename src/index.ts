@@ -21,8 +21,8 @@ const hash: HashResult = files.reduce((agg, f) => {
 	if (!result) process.exit(1)
 	// console.log(result)
 	const [filename, prefix, vm, dateString, extension] = result
-	if (vm !== vmid) return agg;
-	
+	if (vmid !== "*" || vm !== vmid) return agg;
+
 	const link = `${prefix}-${vm}.${extension}`
 	const fileObj = {
 		original: filename,
