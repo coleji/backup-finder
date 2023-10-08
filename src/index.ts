@@ -1,9 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const [_a, _b, source, dest] = process.argv
+const [_a, _b, source, dest, vmid] = process.argv
 
-if (source === undefined || dest === undefined) process.exit(1)
+if (
+	source === undefined ||
+	dest === undefined || 
+	vmid === undefined
+) process.exit(1)
 
 const regex = /^(vzdump-(?:lxc|qemu))-(\d+)-(\d{4}_\d{2}_\d{2}-\d{2}_\d{2}_\d{2})\.(.+)$/
 
@@ -17,6 +21,8 @@ const hash: HashResult = files.reduce((agg, f) => {
 	if (!result) process.exit(1)
 	// console.log(result)
 	const [filename, prefix, vm, dateString, extension] = result
+	if (vm !== vmid) return agg;
+	
 	const link = `${prefix}-${vm}.${extension}`
 	const fileObj = {
 		original: filename,
